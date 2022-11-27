@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="{% block html_lang %}{{ DEFAULT_LANG }}{% endblock html_lang %}">
+<head>
+    {% block head %}
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        {% if page in hidden_pages %}
+            <meta name="robots" content="noindex, nofollow" />
+        {% else %}
+            <meta name="robots" content="{{ ROBOTS }}" />
+        {% endif %}
+
+        <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/{{ CSS_FILE }}" />
+
+        {% if FAVICON %}
+            <link rel="shortcut icon" type="image/x-icon" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/{{ FAVICON }}">
+            <link rel="icon" type="image/x-icon" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/{{ FAVICON }}">
+        {% endif %}
+
+        {% if FEED_ALL_ATOM %}
+            <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom" />
+        {% endif %}
+        {% if FEED_ALL_RSS %}
+            <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS" />
+        {% endif %}
+        {% if CATEGORY_FEED_ATOM and category %}
+        <link href="{{ FEED_DOMAIN }}/{{ CATEGORY_FEED_ATOM.format(slug=category.slug) }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Categories Atom Feed" />
+        {% endif %}
+        {% if CATEGORY_FEED_RSS and category %}
+        <link href="{{ FEED_DOMAIN }}/{{ CATEGORY_FEED_RSS.format(slug=category.slug) }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Categories RSS Feed" />
+        {% endif %}
+
+        {% if BROWSER_COLOR %}
+            <!-- Chrome, Firefox OS and Opera -->
+            <meta name="theme-color" content="{{ BROWSER_COLOR }}">
+            <!-- Windows Phone -->
+            <meta name="msapplication-navbutton-color" content="{{ BROWSER_COLOR }}">
+            <!-- iOS Safari -->
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+            <!-- Microsoft EDGE -->
+            <meta name="msapplication-TileColor" content="{{ BROWSER_COLOR }}">
+        {% endif %}
+
+        {% block meta %}
+            <link rel="canonical" href="{{ SITEURL }}" />
+            <meta name="title" content="{{ SITENAME }}">
+            <meta name="author" content="{{ AUTHOR }}" />
+            <meta name="description" content="{{ SITEDESCRIPTION }}" />
+
+            <meta property="og:site_name" content="{{ SITENAME }}"/>
+            <meta property="og:type" content="blog"/>
+            <meta property="og:title" content="{{ SITENAME }}"/>
+            <meta property="og:description" content="{{ SITEDESCRIPTION }}"/>
+            <meta property="og:locale" content="{{ default_locale }}"/>
+            <meta property="og:url" content="{{ SITEURL }}"/>
+            {% if SITELOGO %}
+                <meta property="og:image" content="{{ SITELOGO }}">
+            {% endif %}
+
+            <meta property="twitter:card" content="summary">
+            <meta property="twitter:url" content="{{ SITEURL }}">
+            <meta property="twitter:title" content="{{ SITENAME }}">
+            <meta property="twitter:description" content="{{ SITEDESCRIPTION }}">
+        {% endblock %}
+
+        <title>{% block title %}{{ SITENAME }}{% endblock title %}</title>
+
+    {% endblock head %}
+</head>
+
+<body>
+    <header>
+        <h1>
+            <a href="{{ SITEURL }}/">
+                {{ SITENAME }}
+                {% if SITESUBTITLE %}
+                    <strong>
+                        {{ SITESUBTITLE }}
+                    </strong>
+                {% endif %}
+            </a>
+        </h1>
+        <nav>
+            <p>
+            {% for title, link in MENUITEMS %}
+                <a href="{{ link }}">{{ title }}</a>
+            {% endfor %}
+            {% if DISPLAY_PAGES_ON_MENU %}
+                {% for p in pages %}
+                    {% if p.url != '' %}
+                        <a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if DISPLAY_CATEGORIES_ON_MENU %}
+                {% for cat, null in categories %}
+                    <a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a>
+                {% endfor %}
+            {% endif %}
+            </p>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <address id="about" class="vcard body">
+            Powered by <a href="https://getpelican.com/">Pelican</a>
+            <br>
+            Based on <a href="https://bearblog.dev">Bear ʕ•ᴥ•ʔ</a>
+        </address>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <content>
+    {% block content_title %}
+    {% endblock %}
+
+    <small>
+        <div class="tags">
+            {% if 'sort_by_article_count' is filter %}
+                {% for tag, articles in tags|sort_by_article_count %}
+                    <a href="{{ SITEURL }}/{{ tag.url }}">#{{ tag }}</a>
+                {% endfor %}
+            {% else %}
+                {% for tag, articles in tags|sort %}
+                    <a href="{{ SITEURL }}/{{ tag.url }}">#{{ tag }}</a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </small>
+    <ul class="blog-posts">
+        <dl>
+            {% for article in articles_page.object_list %}
+            <dt>
+                <li>
+                    <span><i><time class="published" datetime="{{ article.date.isoformat() }}">
+                            {{ article.locale_date }}
+                    </time></i></span>
+                    <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+                </li>
+            </dt>
+            {% if DISPLAY_SUMMARY %}
+            <dd>
+                <div class="entry-content"> {{ article.summary }} </div>
+            </dd>
+            {% endif %}
+            {% endfor %}
+        </dl>
+    </ul>
+    </content>
+{% endblock content %}
