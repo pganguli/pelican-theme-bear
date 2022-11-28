@@ -48,4 +48,5 @@ DISPLAY_MODIFIED = False # modified time on article view
 DISPLAY_AUTHORS = False  # authors list on article view
 DISPLAY_SUMMARY = False  # article summary on index
 TAGS_POSITION = None     # position of tags on index; 'top' or not
+FOOTER_TEXT = None       # footer text to display on all pages
 ```

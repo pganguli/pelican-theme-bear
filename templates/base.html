@@ -110,9 +110,13 @@
     </main>
     <footer>
         <address id="about" class="vcard body">
+        {% if FOOTER_TEXT %}
+            {{ FOOTER_TEXT }}
+        {% else %}
             Powered by <a href="https://getpelican.com/">Pelican</a>
             <br>
             Based on <a href="https://bearblog.dev">Bear ʕ•ᴥ•ʔ</a>
+        {% endif %}
         </address>
     </footer>
 </body>
