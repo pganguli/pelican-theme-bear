@@ -5,6 +5,7 @@
     {% block content_title %}
     {% endblock %}
 
+    {% if TAGS_POSITION == 'top' %}
     <small>
         <div class="tags">
             {% if 'sort_by_article_count' is filter %}
@@ -18,6 +19,7 @@
             {% endif %}
         </div>
     </small>
+    {% endif %}
     <ul class="blog-posts">
         <dl>
             {% for article in articles_page.object_list %}
@@ -37,5 +39,20 @@
             {% endfor %}
         </dl>
     </ul>
+    {% if TAGS_POSITION != 'top' %}
+    <small>
+        <div class="tags">
+            {% if 'sort_by_article_count' is filter %}
+                {% for tag, articles in tags|sort_by_article_count %}
+                    <a href="{{ SITEURL }}/{{ tag.url }}">#{{ tag }}</a>
+                {% endfor %}
+            {% else %}
+                {% for tag, articles in tags|sort %}
+                    <a href="{{ SITEURL }}/{{ tag.url }}">#{{ tag }}</a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </small>
+    {% endif %}
     </content>
 {% endblock content %}
